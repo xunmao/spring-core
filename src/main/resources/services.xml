@@ -13,4 +13,9 @@
   <bean id="userServiceStaticProxy" class="com.xunmao.demo.proxy.UserServiceStaticProxy">
     <property name="userService" ref="userServiceImpl" />
   </bean>
+
+  <!-- 动态代理 -->
+  <bean id="userServiceDynamicProxy" class="com.xunmao.demo.proxy.UserServiceDynamicProxy">
+    <property name="userService" ref="userServiceImpl" />
+  </bean>
 </beans>

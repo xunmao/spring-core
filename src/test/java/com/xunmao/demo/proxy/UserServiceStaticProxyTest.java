@@ -16,7 +16,5 @@ public class UserServiceStaticProxyTest {
 
         User user = userServiceStaticProxy.findUserById(1);
         System.out.println(user);
-
-        userServiceStaticProxy.listUsers().forEach(System.out::println);
     }
 }
