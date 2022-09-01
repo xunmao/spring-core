@@ -2,7 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="userService" class="com.xunmao.demo.service.UserService">
-        <property name="userDao" ref="userDaoMySqlImpl" />
-    </bean>
+  <bean id="userServiceImpl" class="com.xunmao.demo.service.impl.UserServiceImpl">
+    <!-- 使用 MySQL 实现类的实例 -->
+    <property name="userDao" ref="userDaoMySqlImpl" />
+    <!-- 使用 Oracle 实现类的实例 -->
+    <!-- <property name="userDao" ref="userDaoOracleImpl" /> -->
+  </bean>
 </beans>
