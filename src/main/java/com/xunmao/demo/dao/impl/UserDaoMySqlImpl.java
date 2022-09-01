@@ -9,6 +9,7 @@ import com.xunmao.demo.pojo.User;
 
 public class UserDaoMySqlImpl implements UserDao {
 
+    @Override
     public List<User> listUsers() {
         System.out.println("使用 MySQL 获取了用户列表");
 
@@ -21,6 +22,7 @@ public class UserDaoMySqlImpl implements UserDao {
         return users;
     };
 
+    @Override
     public User findUserById(int userId) {
         System.out.println("使用 MySQL 获取了一个用户");
 

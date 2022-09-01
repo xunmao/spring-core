@@ -14,10 +14,12 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
+    @Override
     public List<User> listUsers() {
         return userDao.listUsers();
     }
 
+    @Override
     public User findUserById(int userId) {
         return userDao.findUserById(userId);
     }
