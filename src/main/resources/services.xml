@@ -8,4 +8,9 @@
     <!-- 使用 Oracle 实现类的实例 -->
     <!-- <property name="userDao" ref="userDaoOracleImpl" /> -->
   </bean>
+
+  <!-- 静态代理 -->
+  <bean id="userServiceStaticProxy" class="com.xunmao.demo.proxy.UserServiceStaticProxy">
+    <property name="userService" ref="userServiceImpl" />
+  </bean>
 </beans>
