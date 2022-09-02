@@ -14,10 +14,18 @@ public class UserServiceDynamicProxy implements InvocationHandler {
         this.userService = userService;
     }
 
-    // https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Proxy.html
     public Object getInstance() {
-        return Proxy.newProxyInstance(this.getClass().getClassLoader(),
-                this.userService.getClass().getInterfaces(), this);
+        // 1. 获取类加载器
+        ClassLoader loader = this.getClass().getClassLoader();
+        System.out.println(loader); // sun.misc.Launcher$AppClassLoader@232204a1
+
+        // 2. 获取真实角色上所有的方法
+        Class<?>[] interfaces = this.userService.getClass().getInterfaces();
+        System.out.println(interfaces); // [Ljava.lang.Class;@3d921e20
+
+        // 3. 获取 InvocationHandler 接口实现类的实例（相当于这个类的实例，可以用 this 代替）
+        // 4. 生成动态代理类的实例，并将其返回
+        return Proxy.newProxyInstance(loader, interfaces, this);
     }
 
     @Override
@@ -29,16 +37,10 @@ public class UserServiceDynamicProxy implements InvocationHandler {
     }
 
     private void logBefore(String methodName) {
-        System.out.println("this.getClass().getClassLoader(): " + this.getClass().getClassLoader());
-        System.out.println("this.getClass(): " + this.getClass());
-        System.out.println("userService.getClass(): " + this.userService.getClass());
-        System.out.println("UserService.class: " + UserService.class);
-        System.out.println("this: " + this);
         System.out.println("即将调用" + methodName + "方法");
     }
 
     private void logAfter(String methodName) {
         System.out.println("完成调用" + methodName + "方法");
     }
-
 }
