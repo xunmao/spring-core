@@ -16,11 +16,11 @@ public class UserServiceDynamicProxy implements InvocationHandler {
 
     public Object getInstance() {
         // 1. 获取真实角色的类加载器
-        ClassLoader loader = this.userService.getClass().getClassLoader();
+        ClassLoader loader = userService.getClass().getClassLoader();
         System.out.println(loader); // sun.misc.Launcher$AppClassLoader@232204a1
 
         // 2. 获取真实角色上所有的方法
-        Class<?>[] interfaces = this.userService.getClass().getInterfaces();
+        Class<?>[] interfaces = userService.getClass().getInterfaces();
         System.out.println(interfaces); // [Ljava.lang.Class;@3d921e20
 
         // 3. 获取 InvocationHandler 接口实现类的实例（相当于这个类的实例，可以用 this 代替）

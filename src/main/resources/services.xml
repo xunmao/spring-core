@@ -23,4 +23,8 @@
   <bean id="userServiceDynamicProxy" class="com.xunmao.demo.proxy.UserServiceDynamicProxy">
     <property name="userService" ref="userServiceImpl" />
   </bean>
+  <!-- 第三次实现 -->
+  <bean id="logDynamicProxy" class="com.xunmao.demo.proxy.LogDynamicProxy">
+    <property name="target" ref="userServiceImpl" />
+  </bean>
 </beans>
