@@ -200,3 +200,106 @@ public class UserServiceDynamicProxyTest {
     }
 }
 ```
+
+## AOP
+
+使用 AOP 织入需要导入新的依赖
+
+```xml
+<dependency>
+  <groupId>org.aspectj</groupId>
+  <artifactId>aspectjweaver</artifactId>
+  <version>1.9.9.1</version>
+</dependency>
+```
+
+### 通过 Spring API 实现
+
+```java
+public class LogAspectBySpringApi implements MethodBeforeAdvice, AfterReturningAdvice {
+
+    @Override
+    public void before(Method method, Object[] args, Object target) throws Throwable {
+        System.out.println("即将调用" + method.getName() + "方法");
+    }
+
+    @Override
+    public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable {
+        System.out.println("完成调用" + method.getName() + "方法");
+    }
+}
+```
+
+配置文件（部分）
+
+```xml
+<bean id="logAspectBySpringApi" class="com.xunmao.demo.aspect.LogAspectBySpringApi" />
+<aop:config>
+  <aop:pointcut id="logAspectBySpringApiPointCut" expression="execution(* com.xunmao.demo.service.impl.UserServiceImpl.*(..))" />
+  <aop:advisor advice-ref="logAspectBySpringApi" pointcut-ref="logAspectBySpringApiPointCut" />
+</aop:config>
+```
+
+### 通过自定义方法实现
+
+```java
+public class LogAspectByCustomized {
+
+    // 通过自定义方法实现通知（Advice）时，可以加上 JoinPoint 类型的参数，来获取代理对象的方法名等
+    // https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-ataspectj-advice-params-the-joinpoint
+    public void before(JoinPoint joinPoint) {
+        System.out.println("即将调用" + joinPoint.toShortString() + "方法");
+        // 输出：即将调用execution(UserService.listUsers())方法
+    }
+
+    public void afterReturning(JoinPoint joinPoint) {
+        System.out.println("完成调用" + joinPoint.toShortString() + "方法");
+        // 输出：完成调用execution(UserService.listUsers())方法
+    }
+}
+```
+
+配置文件（部分）
+
+```xml
+<bean id="logAspectByCustomized" class="com.xunmao.demo.aspect.LogAspectByCustomized" />
+<aop:config>
+  <aop:aspect ref="logAspectByCustomized">
+    <aop:pointcut id="logAspectByCustomizedPointCut" expression="execution(* com.xunmao.demo.service.impl.UserServiceImpl.*(..))" />
+    <aop:before method="before" pointcut-ref="logAspectByCustomizedPointCut" />
+    <aop:after-returning method="afterReturning" pointcut-ref="logAspectByCustomizedPointCut" />
+  </aop:aspect>
+</aop:config>
+```
+
+### 通过 @AspectJ 注解实现
+
+```java
+@Aspect
+public class LogAspectByAnnotation {
+
+    @Pointcut("execution(* com.xunmao.demo.service.impl.UserServiceImpl.*(..))")
+    private void logAspectByAnnotationPointCut() {
+    }
+
+    // 如果 logAspectByAnnotationPointCut 方法与通知 Advice 定义在不同的类中，需要在方法之前补充类的全限定名（如下）
+    // @Before("com.xunmao.demo.aspect.LogAspectByAnnotation.logAspectByAnnotationPointCut()")
+    // 如果 logAspectByAnnotationPointCut 方法与通知 Advice 定义在同一个类中，可以省略类的全限定名
+    @Before("logAspectByAnnotationPointCut()")
+    public void before(JoinPoint joinPoint) {
+        System.out.println("即将调用" + joinPoint.toShortString() + "方法");
+    }
+
+    @AfterReturning("logAspectByAnnotationPointCut()")
+    public void afterReturning(JoinPoint joinPoint) {
+        System.out.println("完成调用" + joinPoint.toShortString() + "方法");
+    }
+}
+```
+
+配置文件（部分）
+
+```xml
+<aop:aspectj-autoproxy />
+<bean id="logAspectByAnnotation" class="com.xunmao.demo.aspect.LogAspectByAnnotation" />
+```

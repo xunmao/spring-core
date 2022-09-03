@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
 
   <bean id="userServiceImpl" class="com.xunmao.demo.service.impl.UserServiceImpl">
     <!-- 使用 MySQL 实现类的实例 -->
@@ -27,4 +30,39 @@
   <bean id="logDynamicProxy" class="com.xunmao.demo.proxy.LogDynamicProxy">
     <property name="target" ref="userServiceImpl" />
   </bean>
+
+  <!-- 
+    AOP 的三种实现方式：
+    1. 通过 Spring API 实现
+    2. 通过自定义方法实现
+    3. 通过 @AspectJ 注解实现
+
+    关于 execution 的示例可以参考官方文档：
+    https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-pointcuts-examples
+   -->
+
+  <!-- 通过 Spring API 实现 -->
+  <!-- 
+  <bean id="logAspectBySpringApi" class="com.xunmao.demo.aspect.LogAspectBySpringApi" />
+  <aop:config>
+    <aop:pointcut id="logAspectBySpringApiPointCut" expression="execution(* com.xunmao.demo.service.impl.UserServiceImpl.*(..))" />
+    <aop:advisor advice-ref="logAspectBySpringApi" pointcut-ref="logAspectBySpringApiPointCut" />
+  </aop:config>
+   -->
+
+  <!-- 通过自定义方法实现 -->
+  <!-- 
+  <bean id="logAspectByCustomized" class="com.xunmao.demo.aspect.LogAspectByCustomized" />
+  <aop:config>
+    <aop:aspect ref="logAspectByCustomized">
+      <aop:pointcut id="logAspectByCustomizedPointCut" expression="execution(* com.xunmao.demo.service.impl.UserServiceImpl.*(..))" />
+      <aop:before method="before" pointcut-ref="logAspectByCustomizedPointCut" />
+      <aop:after-returning method="afterReturning" pointcut-ref="logAspectByCustomizedPointCut" />
+    </aop:aspect>
+  </aop:config>
+   -->
+
+  <!-- 通过 @AspectJ 注解实现 -->
+  <aop:aspectj-autoproxy />
+  <bean id="logAspectByAnnotation" class="com.xunmao.demo.aspect.LogAspectByAnnotation" />
 </beans>
