@@ -15,6 +15,11 @@
   </bean>
 
   <!-- 动态代理 -->
+  <!-- 第一次实现 -->
+  <bean id="userServiceInvocationHandler" class="com.xunmao.demo.proxy.UserServiceInvocationHandler">
+    <property name="userService" ref="userServiceImpl" />
+  </bean>
+  <!-- 第二次实现 -->
   <bean id="userServiceDynamicProxy" class="com.xunmao.demo.proxy.UserServiceDynamicProxy">
     <property name="userService" ref="userServiceImpl" />
   </bean>

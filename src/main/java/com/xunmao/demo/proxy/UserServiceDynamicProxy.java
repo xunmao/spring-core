@@ -15,8 +15,8 @@ public class UserServiceDynamicProxy implements InvocationHandler {
     }
 
     public Object getInstance() {
-        // 1. 获取类加载器
-        ClassLoader loader = this.getClass().getClassLoader();
+        // 1. 获取真实角色的类加载器
+        ClassLoader loader = this.userService.getClass().getClassLoader();
         System.out.println(loader); // sun.misc.Launcher$AppClassLoader@232204a1
 
         // 2. 获取真实角色上所有的方法
