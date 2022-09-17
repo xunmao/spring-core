@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import com.xunmao.demo.util.Logger;
+
 public class LogDynamicProxy implements InvocationHandler {
 
     private Object target;
@@ -27,10 +29,10 @@ public class LogDynamicProxy implements InvocationHandler {
     }
 
     private void logBefore(String methodName) {
-        System.out.println("即将调用" + methodName + "方法");
+        Logger.logBefore(this.getClass().getName(), methodName);
     }
 
     private void logAfter(String methodName) {
-        System.out.println("完成调用" + methodName + "方法");
+        Logger.logAfter(this.getClass().getName(), methodName);
     }
 }

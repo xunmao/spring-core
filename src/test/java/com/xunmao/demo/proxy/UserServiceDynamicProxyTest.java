@@ -12,7 +12,7 @@ import com.xunmao.demo.service.UserService;
 public class UserServiceDynamicProxyTest {
 
     @Test
-    public void shouldListUsers() {
+    public void shouldListUsersWithUserServiceInvocationHandler() {
         // 1. 生成 ApplicationContext 类的实例，以便获取 Spring 容器中的其他实例
         ApplicationContext context = new ClassPathXmlApplicationContext("daos.xml", "services.xml");
 
@@ -37,7 +37,7 @@ public class UserServiceDynamicProxyTest {
     }
 
     @Test
-    public void shouldFindUserById() {
+    public void shouldFindUserByIdWithUserServiceDynamicProxy() {
         // 1. 生成 ApplicationContext 类的实例，以便获取 Spring 容器中的其他实例
         ApplicationContext context = new ClassPathXmlApplicationContext("daos.xml", "services.xml");
 

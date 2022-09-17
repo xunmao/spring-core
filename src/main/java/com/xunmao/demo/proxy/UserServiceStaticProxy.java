@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.xunmao.demo.pojo.User;
 import com.xunmao.demo.service.UserService;
+import com.xunmao.demo.util.Logger;
 
 public class UserServiceStaticProxy implements UserService {
 
@@ -30,10 +31,10 @@ public class UserServiceStaticProxy implements UserService {
     }
 
     private void logBefore(String methodName) {
-        System.out.println("即将调用" + methodName + "方法");
+        Logger.logBefore(this.getClass().getName(), methodName);
     }
 
     private void logAfter(String methodName) {
-        System.out.println("完成调用" + methodName + "方法");
+        Logger.logAfter(this.getClass().getName(), methodName);
     }
 }

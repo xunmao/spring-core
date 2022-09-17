@@ -9,7 +9,7 @@ import com.xunmao.demo.pojo.User;
 public class UserServiceStaticProxyTest {
 
     @Test
-    public void shouldFindUserById() {
+    public void shouldFindUserByIdWithUserServiceStaticProxy() {
         ApplicationContext context = new ClassPathXmlApplicationContext("daos.xml", "services.xml");
         UserServiceStaticProxy userServiceStaticProxy = context.getBean("userServiceStaticProxy",
                 UserServiceStaticProxy.class);
